@@ -8,7 +8,6 @@ from io import BytesIO
 from .support.PIL import Image, ImageChops
 
 
-
 def convert(image):
   buf = QBuffer()
   buf.open(QBuffer.ReadWrite)

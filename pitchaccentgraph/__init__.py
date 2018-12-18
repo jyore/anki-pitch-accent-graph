@@ -1,45 +1,31 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-
 import anki
 import aqt
 
+from .actions import add_to_note, bulk_add, configure
+
 
 __all__ = ['menus']
-
-
-#XXX: TEMP
-def dummy(obj):
-  from .capture import generate
-  generate("あそこに立ってる人、もしかして部長!?", result)
-
-
-#XXX: TEMP
-def result(image):
-  import uuid
-
-  fn = "%s.png" % uuid.uuid4()
-  image.save(fn) 
-  aqt.utils.showInfo(fn)
 
 
 def menus():
 
   def browser_menu(browser):
     action = aqt.qt.QAction("Bulk-add Pitch Accent Graphs", browser)
-    action.triggered.connect(lambda: dummy(browser))
+    action.triggered.connect(lambda: bulk_add(browser))
     browser.form.menuEdit.addSeparator()
     browser.form.menuEdit.addAction(action)      
 
   def config_menu(mw):
     action = aqt.qt.QAction("Pitch Accent Graphs...", mw)
-    mw.connect(action, aqt.qt.SIGNAL("triggered()"), lambda: dummy(mw))
+    mw.connect(action, aqt.qt.SIGNAL("triggered()"), lambda: configure(mw))
     mw.form.menuTools.addAction(action)
 
   def context_menu(view, menu):
     submenu = aqt.qt.QMenu("Pitch Accent Graphs", menu)
-    submenu.addAction("Add to Note",lambda: dummy(menu))
+    submenu.addAction("Add to Note",lambda: add_to_note(menu))
     menu.addMenu(submenu)
 
 
