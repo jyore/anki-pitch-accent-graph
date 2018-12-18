@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 
 import anki
 import aqt
@@ -6,8 +8,20 @@ import aqt
 
 __all__ = ['menus']
 
+
+#XXX: TEMP
 def dummy(obj):
-  aqt.utils.showInfo("dummy")
+  from .capture import generate
+  generate("あそこに立ってる人、もしかして部長!?", result)
+
+
+#XXX: TEMP
+def result(image):
+  import uuid
+
+  fn = "%s.png" % uuid.uuid4()
+  image.save(fn) 
+  aqt.utils.showInfo(fn)
 
 
 def menus():

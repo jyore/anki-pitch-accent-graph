@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import os, unicodedata,uuid
 from aqt import mw
 from aqt.qt import *
 from aqt.webview import AnkiWebView
-from aqt.utils import showInfo
 from io import BytesIO
-from PIL import Image, ImageChops
+from .support.PIL import Image, ImageChops
 
 
 
@@ -67,24 +65,3 @@ def generate(expression, cb=None):
 
   web.load(QUrl("http://www.gavo.t.u-tokyo.ac.jp/ojad/phrasing/index"))
   web.loadFinished.connect(submit_text)
-
-
-
-class PA_Web:
-
-  def __init__(self, mw):
-    self.run_btn = QAction("Test Pitch Accent Image", mw)
-    mw.connect(self.run_btn, SIGNAL("triggered()"), self.setup)
-    mw.form.menuTools.addAction(self.run_btn)
-
-
-  def setup(self):
-    generate("あそこに立ってる人、もしかして部長!?", self.result)
-
-
-  def result(self, image):
-    fn = "%s.png" % uuid.uuid4()
-    image.save(fn) 
-    showInfo(fn)
-
-mw.webpage = PA_Web(mw)
