@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import time
-
 from aqt.qt import QObject, pyqtSlot, pyqtSignal
 from io import BytesIO
 from PIL import Image, ImageChops
@@ -52,8 +50,7 @@ class CaptureWorker(QObject):
                   EC.title_contains('Printable Screen')
                 )
 
-                time.sleep(0.1)
-                driver.execute_script("$('.ds_t').hide()")
+                driver.execute_script("$('.ds_t, input, select, font').hide()")
     
                 png = driver.get_screenshot_as_png()
                 im = trim(Image.open(BytesIO(png)))
