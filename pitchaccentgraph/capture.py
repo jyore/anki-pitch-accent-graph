@@ -1,66 +1,66 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from aqt import mw
-from aqt.qt import *
-from aqt.webview import AnkiWebView
+from aqt.qt import QObject, pyqtSlot, pyqtSignal
 from io import BytesIO
-from .support.PIL import Image, ImageChops
+from PIL import Image, ImageChops
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait, Select  
+
+from .util import trim, get_driver, random_filename
 
 
-def convert(image):
-  buf = QBuffer()
-  buf.open(QBuffer.ReadWrite)
-  image.save(buf, "png")
-  return Image.open(BytesIO(str(buf.data())))
+__all__ = ['CaptureWorker']
+
+class CaptureWorker(QObject):
+  finished = pyqtSignal()
+  dataReady = pyqtSignal(str)
+
+  @pyqtSlot(list)
+  def processB(self, expressions):
+    driver = get_driver()
+
+    try:
+
+      for expression in expressions:
+        driver.get("http://www.gavo.t.u-tokyo.ac.jp/ojad/eng/phrasing/index")
+
+        WebDriverWait(driver, 10).until(
+          EC.presence_of_element_located((By.ID, 'PhrasingIndexForm'))
+        )
+
+        form = driver.find_element_by_id("PhrasingIndexForm")
+        text = driver.find_element_by_id("PhrasingText")
+        text.send_keys(expression)
+        form.submit()
 
 
-def trim(image):
-  bg = Image.new(image.mode, image.size, image.getpixel((0,0)))
-  diff = ImageChops.difference(image, bg)
-  diff = ImageChops.add(diff, diff, 2.0, -100)
-  bbox = diff.getbbox()
-  if bbox:
-      return image.crop(bbox)
-  else:
-      return image
+        WebDriverWait(driver, 10).until(
+          EC.presence_of_element_located((By.ID, 'PhrasingPublishIndexForm'))
+        )
+    
+        printform = driver.find_element_by_id('PhrasingPublishIndexForm')
+        driver.execute_script('document.getElementById("PhrasingPublishIndexForm").target = ""')
+        printform.submit()
+    
+    
+        WebDriverWait(driver, 10).until(
+          EC.title_contains('Printable Screen')
+        )
 
+        import time
+        time.sleep(0.2)
+    
+        png = driver.get_screenshot_as_png()
+        im = trim(Image.open(BytesIO(png)))
+        fn = random_filename() 
+        im.save(fn)
+        self.dataReady.emit(fn)
+    
+    finally:
+      driver.quit()
+      self.finished.emit()
 
-def generate(expression, cb=None):
-  web = AnkiWebView()
-
-  def save_image():
-    page = web.page()
-    page.setViewportSize(page.mainFrame().contentsSize())
-
-    image = QImage(page.viewportSize(), QImage.Format_ARGB32)
-    painter = QPainter(image)
-    page.mainFrame().render(painter)
-    painter.end()
-
-    if cb:
-      cb(trim(convert(image)))
-
-
-  def print_page():
-    web.loadFinished.disconnect()
-
-    dom = web.page().mainFrame()
-    dom.evaluateJavaScript('document.getElementById("PhrasingPublishIndexForm").target = ""')
-    dom.evaluateJavaScript('document.querySelector(\'#PhrasingPublishIndexForm input[type="submit"]\').click()')
-
-    web.loadFinished.connect(lambda: QTimer.singleShot(100, lambda: save_image()))
-
-
-  def submit_text():
-    web.loadFinished.disconnect()
-
-    dom = web.page().mainFrame()
-    dom.evaluateJavaScript('document.getElementById("PhrasingText").value = "%s"' % expression)
-    dom.evaluateJavaScript('document.getElementById("PhrasingIndexForm").submit()')
-
-    web.loadFinished.connect(print_page)
-
-
-  web.load(QUrl("http://www.gavo.t.u-tokyo.ac.jp/ojad/phrasing/index"))
-  web.loadFinished.connect(submit_text)
