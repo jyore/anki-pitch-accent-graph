@@ -8,8 +8,8 @@ from aqt.utils import tooltip, showInfo
 from .capture import CaptureWorker
 
 received = []
-def onDataReady(exp):
-  received.append(exp)
+def onDataReady(ref,exp,fn):
+  received.append("%s(%s)" % (ref, fn))
 
 
 class MyTest():
@@ -28,6 +28,8 @@ class MyTest():
     self.thread.connect(self.thread, SIGNAL("finished()"), self.swin, SLOT("accept()"))
     self.thread.connect(self.thread, SIGNAL("finished()"), self.thread.terminate)
 
+
+
   def setup(self):
     global received
 
@@ -37,7 +39,7 @@ class MyTest():
     self.thread.start()    
 
     if self.swin.exec_():
-      tooltip("Created files: %s" % received)
+      tooltip("Created files: %s" % ', '.join(received))
       received = []
       mw.progress.finish()
 
@@ -58,6 +60,23 @@ class MyTest():
 
   def run(self):
     mw.progress.start(immediate=True)
-    QMetaObject.invokeMethod(self.obj, 'processB', Qt.QueuedConnection,
-          Q_ARG(list, ["私は車が２台ある","あそこに立ってる人、もしかして部長!?"])
+    QMetaObject.invokeMethod(self.obj, 'process', Qt.QueuedConnection,
+          Q_ARG(list, build_notes())
     )
+
+
+def build_notes():
+  results = []
+
+  nids = mw.col.db.all('select n.id from notes n')
+  for nid, in nids:
+    note = mw.col.getNote(nid)
+
+    fields = mw.col.models.fieldNames(note.model())
+    if 'Expression' in fields:
+      ref = nid
+      exp = mw.col.media.strip(note['Expression'])
+      
+      results.append((str(ref),exp))
+
+  return results
