@@ -7,17 +7,19 @@ anki-pitch-accent-graph
 - Ensure Python 2.7 and Pip are installed
 - Browse to the Anki addons folder
 - Install PIL library to the addons folder: `pip install Pillow -t .`
-- Clone this repository and copy the capture.py file to the addons folder.
+- Install Selenium library to the addons folder: `pip install selenium -t .`
+- Clone this repository and copy the `PitchAccentGraph.py` and `pitchaccentgraph` directories to the addons folder
 - Restart Anki
 
 
 # Run POC
 
-- Update line 82 with an expression to generate a graph for
+- Update line 62 of `testit.py` with expressiosn to generate a graphs for
 - Restart Anki
-- In Anki, click `Tools->Test Pitch Accent Image`
-- When it finishes, a popup will notify you of the file name of the image
-- Browse to your collection.media directory in Anki and view your file
+- In Anki, click `Tools->TEST STUFF
+- Click 'Go'`
+- When it finishes, a tooltip will notify you of the file names of the images created
+- Browse to your collection.media directory in Anki and view your files
 
 
 # TODO
