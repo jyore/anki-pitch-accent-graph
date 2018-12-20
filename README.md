@@ -2,7 +2,17 @@ anki-pitch-accent-graph
 =======================
 
 
-# Manual Install
+# Installation
+
+## Release Install
+
+- Go to the [Releases](https://github.com/jyore/anki-pitch-accent-graph/releases) page and download the zip file for the version you want to install
+- Unzip the zip file
+- Copy all contents of the expanded directory into your addons folder
+
+
+
+## Manual Install
 
 - Ensure Python 2.7 and Pip are installed
 - Browse to the Anki addons folder
@@ -12,18 +22,29 @@ anki-pitch-accent-graph
 - Restart Anki
 
 
-# Run It
+# Use It
 
-- Open the Browser inside Anki
-- Select any number of cards you wish to update
-- Select the "Pitch Accent Graphs" and "Bulk Add" menu options from the menu bar
-- Complete the form
-- Click "ok"
+## Add to Single Card
+
+This can be done from either the Add New Card or Edit Card forms.
+
+- Highlight the text you wish to generate a pitch accent graph for
+- Click on the editor icon (![icon](pitchaccentgraph/gui/icons/icon.png)) or use the right-click context menu
+- Verify the Expression field is correct
+- Select a target destination field to place the generated pitch accent graph into
+- Select "Append" to add the graph into the destination field or "Replace" to completely replace the contents of the destination field
+- Click Ok to generate the graph
 
 
-# TODO
+## Bulk add to cards
 
-Items currently under development
+This can only be done through selecting cards in the browser.
 
-- Generate an image for a card from New/Edit Card edit and context menus 
-- Configuration manager
+- Open the broswer and select the cards you wish to add graphs to
+- Click the Pitch Accent Graphs option from the menu bar and then select the bulk add option
+- Ensure the correct source and destination fields are selected
+- Select "Append" to add the graph into the destination field or "Replace" to completely replace the contents of the destination field
+- Click Ok to generate graphs for the notes
+
+
+> **Note:** You can only select a source and destination field that are present on all of the selected cards. If there are card types that do not have common fields, then you must modify your note selection to meet this condition.
