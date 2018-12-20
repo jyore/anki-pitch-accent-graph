@@ -3,5 +3,7 @@ from . import *
 
 __all__ = [
     'ICON', 
-    'Dialog'
+    'Dialog',
+    'BulkAdd',
+    'SingleAdd'
 ]

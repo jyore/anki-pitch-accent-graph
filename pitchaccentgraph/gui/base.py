@@ -42,7 +42,7 @@ class Dialog(QDialog):
         self.setWindowTitle(
             self.title if "Pitch Accent Graphs" in self.title else "Pitch Accent Graphs: %s" % self.title
         )
-        self.setMinimumSize(400,100)
+        self.setMinimumSize(600,100)
 
 
     def ui(self):

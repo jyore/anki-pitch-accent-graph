@@ -6,10 +6,13 @@ import aqt
 
 
 from .gui.bulk import BulkAdd
+from .gui.single import SingleAdd
+
 
 __all__ = ['menus']
 
 aqt.mw.bulk_add = BulkAdd(aqt.mw)
+aqt.mw.single_add = SingleAdd(aqt.mw)
 
 
 
@@ -32,7 +35,14 @@ def menus():
             'before'
         )
 
+    def context_menu(view, menu):
+        submenu = aqt.qt.QMenu("Pitch Accent Graph", menu)
+        submenu.addAction("Add to Note", lambda: aqt.mw.single_add.show(view))
+        menu.addMenu(submenu)
+
+
     anki.hooks.addHook("browser.setupMenus", browser_menu)
+    anki.hooks.addHook("EditorWebView.contextMenuEvent", context_menu)
     
 
 

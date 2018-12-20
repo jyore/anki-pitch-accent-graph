@@ -12,6 +12,8 @@ from ..capture import CaptureWorker
 from ..util import create_image_html
 
 
+__all__ = ["BulkAdd"]
+
 class BulkAdd(Dialog):
 
     SPACER = QLabel("")
