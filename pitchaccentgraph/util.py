@@ -13,7 +13,7 @@ from selenium import webdriver
 
 
 
-__all__ = ['trim', 'random_filename', 'get_driver']
+__all__ = ['trim', 'random_filename', 'get_driver', 'create_image_html']
 
 
 # NOTE: Technically, the phantomjs browser that is being used is being
@@ -57,3 +57,7 @@ def get_driver():
     driver = webdriver.PhantomJS(executable_path=os.path.join(os.path.dirname(__file__), path))
     driver.set_window_size(1920,1080)
     return driver
+
+
+def create_image_html(fn):
+    return '<img class="pitch_accent_graph" src="%s"/>' % fn
