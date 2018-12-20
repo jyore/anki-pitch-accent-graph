@@ -77,10 +77,9 @@ class Dialog(QDialog):
 
 
     def ui_buttons(self):
-        buttons = QDialogButtonBox()
-        buttons.accepted.connect(self.accept)
-        buttons.rejected.connect(self.reject)
+        self.buttons = QDialogButtonBox()
+        self.buttons.accepted.connect(self.accept)
+        self.buttons.rejected.connect(self.reject)
 
-        buttons.setStandardButtons(QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
-
-        return buttons
+        self.buttons.setStandardButtons(QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
+        return self.buttons

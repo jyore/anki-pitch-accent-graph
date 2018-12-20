@@ -47,18 +47,18 @@ class BulkAdd(Dialog):
         layout = QGridLayout()
 
         self.modify_label = QLabel("Modifying 0 Notes")
+        self.warning = QLabel("")
+        self.warning.setStyleSheet("color:red")
 
-        self.src_field = QLineEdit()
-        self.src_field.setText("Expression")  #TODO: Add Defaults
-
-        self.dst_field = QLineEdit()
-        self.dst_field.setText("PitchAccent") #TODO: Add Defaults
+        self.src_field = QComboBox()
+        self.dst_field = QComboBox()
 
         self.update_methods = QComboBox()
         self.update_methods.addItems(["Append", "Replace"])
 
         # row 0
-        layout.addWidget(self.modify_label, 0, 0, 1, 12)
+        layout.addWidget(self.modify_label, 0, 0, 1, 6)
+        layout.addWidget(self.warning, 0, 6, 1, 12)
 
         # row 1
         layout.addWidget(self.SPACER, 1, 0, 1, 12)
@@ -80,13 +80,43 @@ class BulkAdd(Dialog):
 
     def show(self, browser):        
         self.nids = browser.selectedNotes()
+
+        ntypes = {}
+        for nid in self.nids:
+            note = mw.col.getNote(nid)
+            
+            name = note.model()['name']
+            if name in ntypes:
+                continue
+            else:
+                ntypes[name] = mw.col.models.fieldNames(note.model())
+
+        result = None
+        for ntype in ntypes:
+            if result is None:
+                result = ntypes[ntype]
+            else:
+                result = list(set(result) & set(ntypes[ntype]))
+
+        result = sorted(result)
+
+        self.src_field.clear()
+        self.dst_field.clear()
+        self.src_field.addItems(result)
+        self.dst_field.addItems(result)
+
         self.modify_label.setText("Modifying %s Notes" % len(self.nids))
-        self.thread.start()    
         super(BulkAdd, self).show()
+
+        if self.validate():
+            self.thread.start()    
 
 
 
     def accept(self):
+
+        if not self.validate():
+            return
 
         notes = []
         self.total = len(self.nids)
@@ -123,3 +153,24 @@ class BulkAdd(Dialog):
 
     def process_complete(self):
         showInfo("Added Pitch-Accent Graphs to %s/%s notes" % (self.total-len(self.failed), self.total))
+
+
+    def validate(self):
+        passed = True
+        msg = ""
+
+        if self.dst_field.count() < 1:
+            passed = False
+            msg = "No common field available for Source/Destination from card types"
+
+
+        self.warning.setText(msg)
+        self.src_field.setEnabled(passed)
+        self.dst_field.setEnabled(passed)
+        self.buttons.button(QDialogButtonBox.Ok).setEnabled(passed)
+        if passed:
+            self.warning.show()
+        else:
+            self.warning.hide()
+
+        return passed
