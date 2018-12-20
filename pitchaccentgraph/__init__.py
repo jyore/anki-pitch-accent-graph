@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import anki
 import aqt
 
-
+from .gui.base import ICON
 from .gui.bulk import BulkAdd
 from .gui.single import SingleAdd
 
@@ -41,8 +41,22 @@ def menus():
         menu.addMenu(submenu)
 
 
+    def editor_menu(editor):
+
+        btn = aqt.qt.QPushButton(ICON,None)
+        btn.setFixedWidth(20)
+        btn.setFixedHeight(20)
+        btn.setFocusPolicy(aqt.qt.Qt.NoFocus)
+        btn.setToolTip("Add Pitch Accent Graph to Note")
+        btn.connect(btn, aqt.qt.SIGNAL("clicked()"), lambda: aqt.mw.single_add.show(editor)) 
+
+        editor.iconsBox.addWidget(btn)
+        
+
     anki.hooks.addHook("browser.setupMenus", browser_menu)
     anki.hooks.addHook("EditorWebView.contextMenuEvent", context_menu)
+    anki.hooks.addHook("setupEditorButtons", editor_menu)
+    
     
 
 

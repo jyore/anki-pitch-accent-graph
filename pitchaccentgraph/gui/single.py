@@ -61,12 +61,16 @@ class SingleAdd(Dialog):
         return layout
 
 
-    def show(self, view):
-        self.view = view
+    def show(self, o):
+        if hasattr(o, 'editor'):
+            self.editor = o.editor
+        else:
+            self.editor = o
 
-        fields = [ x['name'] for x in view.editor.note.model()['flds'] ]
 
-        self.expression_field.setText(view.selectedText())
+        fields = [ x['name'] for x in self.editor.note.model()['flds'] ]
+
+        self.expression_field.setText(self.editor.note.fields[self.editor.currentField])
         self.expression_field.setFocus()
         self.destination_fields.clear()
         self.destination_fields.addItems(fields)
@@ -87,10 +91,10 @@ class SingleAdd(Dialog):
 
         ref = int(ref)
         if self.update_methods.currentIndex() == 0:
-            self.view.editor.note.fields[ref] = self.view.editor.note.fields[ref] = "%s<div>%s</div>" % (self.view.editor.note.fields[ref], create_image_html(fn))
+            self.editor.note.fields[ref] = self.editor.note.fields[ref] = "%s<div>%s</div>" % (self.editor.note.fields[ref], create_image_html(fn))
         else:
-            self.view.editor.note.fields[ref] = create_image_html(fn)
+            self.editor.note.fields[ref] = create_image_html(fn)
 
-        self.view.editor.note.flush()
+        self.editor.note.flush()
 
 
