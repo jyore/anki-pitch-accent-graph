@@ -124,9 +124,9 @@ class BulkAdd(Dialog):
         for nid in self.nids:
             note = mw.col.getNote(nid)
             fields = mw.col.models.fieldNames(note.model())
-            if self.src_field.text() in fields and self.dst_field.text() in fields:
+            if self.src_field.currentText() in fields and self.dst_field.currentText() in fields:
                 ref = nid
-                exp = mw.col.media.strip(note[self.src_field.text()])
+                exp = mw.col.media.strip(note[self.src_field.currentText()])
 
                 notes.append((str(ref), exp))
             else:
@@ -144,9 +144,9 @@ class BulkAdd(Dialog):
         note = mw.col.getNote(long(ref))
         
         if self.update_methods.currentIndex() == 0:
-            note[self.dst_field.text()] = "%s<div>%s</div>" % (note[self.dst_field.text()], create_image_html(fn))
+            note[self.dst_field.currentText()] = "%s%s" % (note[self.dst_field.currentText()], create_image_html(fn))
         else:
-            note[self.dst_field.text()] = create_image_html(fn)
+            note[self.dst_field.currentText()] = create_image_html(fn)
 
         note.flush()
 

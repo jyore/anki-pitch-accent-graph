@@ -60,4 +60,4 @@ def get_driver():
 
 
 def create_image_html(fn):
-    return '<img class="pitch_accent_graph" src="%s"/>' % fn
+    return '<div class="pitch_accent_graph"><img src="%s"/></div>' % fn

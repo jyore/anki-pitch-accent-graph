@@ -91,7 +91,7 @@ class SingleAdd(Dialog):
 
         ref = int(ref)
         if self.update_methods.currentIndex() == 0:
-            self.editor.note.fields[ref] = self.editor.note.fields[ref] = "%s<div>%s</div>" % (self.editor.note.fields[ref], create_image_html(fn))
+            self.editor.note.fields[ref] = self.editor.note.fields[ref] = "%s%s" % (self.editor.note.fields[ref], create_image_html(fn))
         else:
             self.editor.note.fields[ref] = create_image_html(fn)
 
