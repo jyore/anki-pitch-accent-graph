@@ -60,7 +60,7 @@ The graph is inserted with the following html:
     <div class="pitch_accent_graph"><img src="image_name.png"/></div>
 
 
-Therefore you can use the `._pitch_accent_graph` class as a good way to target the graph in css
+Therefore you can use the `.pitch_accent_graph` class as a good way to target the graph in css
 
 Sample CSS:
 
