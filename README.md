@@ -12,20 +12,18 @@ anki-pitch-accent-graph
 - Restart Anki
 
 
-# Run POC
+# Run It
 
-- Update line 62 of `testit.py` with expressiosn to generate a graphs for
-- Restart Anki
-- In Anki, click `Tools->TEST STUFF
-- Click 'Go'`
-- When it finishes, a tooltip will notify you of the file names of the images created
-- Browse to your collection.media directory in Anki and view your files
+- Open the Browser inside Anki
+- Select any number of cards you wish to update
+- Select the "Pitch Accent Graphs" and "Bulk Add" menu options from the menu bar
+- Complete the form
+- Click "ok"
 
 
 # TODO
 
 Items currently under development
 
-- Generate an image for a card from New/Edit Card 
-- Bulk Add images for a selection of cards 
-- UI's and context menus
+- Generate an image for a card from New/Edit Card edit and context menus 
+- Configuration manager
