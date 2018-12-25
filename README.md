@@ -3,6 +3,9 @@ anki-pitch-accent-graph
 
 Add Pitch Accent Graphs to your cards quickly and easily for reinforcing pitch accent patterns during your reps.
 
+- For Anki 2.0, use version 0.1.0
+- For Anki 2.1, use version 0.2.0 or greater
+
 
 # Installation
 
@@ -10,18 +13,15 @@ Add Pitch Accent Graphs to your cards quickly and easily for reinforcing pitch a
 
 - Go to the [Releases](https://github.com/jyore/anki-pitch-accent-graph/releases) page and download the zip file for the version you want to install
 - Unzip the zip file
-- Copy all contents of the expanded directory into your addons folder
+- Copy the extracted directory to the addons folder 
+- Restart Anki
+
 
 
 ## Manual Install
 
-- Ensure Python 2.7 and Pip are installed
-- Browse to the Anki addons folder
-- Install PIL library to the addons folder: `pip install Pillow -t .`
-- Install Selenium library to the addons folder: `pip install selenium -t .`
-- Clone this repository and copy the `PitchAccentGraph.py` and `pitchaccentgraph` directories to the addons folder
+- Clone the repository to your addon folder
 - Restart Anki
-
 
 
 # Use It
