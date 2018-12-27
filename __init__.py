@@ -3,7 +3,7 @@
 # NOTE: Add the support directory to the sys path so 
 # that dependency modules can be imported
 import os,sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__).replace("\\","/"), "support"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "support"))
 
 
 import anki

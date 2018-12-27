@@ -8,7 +8,7 @@ from aqt.qt import *
 from ..version import VERSION
 
 
-ICON = os.path.join(os.path.dirname(__file__), "icons", "icon.png").replace("\\","/")
+ICON = os.path.join(os.path.dirname(__file__), "icons", "icon.png")
 
 
 class Dialog(QDialog):
