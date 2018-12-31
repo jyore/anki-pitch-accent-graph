@@ -41,7 +41,10 @@ def get_driver():
     path = os.path.join('drivers', PLATFORM, 'phantomjs%s' % ('.exe' if PLATFORM == 'windows' else ''))
 
     sys.path.append(os.path.join(os.path.dirname(__file__), path))
-    driver = webdriver.PhantomJS(executable_path=os.path.join(os.path.dirname(__file__), path))
+    driver = webdriver.PhantomJS(
+        executable_path=os.path.join(os.path.dirname(__file__), path),
+        service_log_path=os.path.devnull,
+    )
     driver.set_window_size(1920,1080)
     return driver
 

@@ -50,6 +50,8 @@ def capture(reference, expression):
     fn = random_filename() 
     im.save(fn)
 
+    driver.quit()
+
     return {
         'ref': reference, 
         'fn':  fn,

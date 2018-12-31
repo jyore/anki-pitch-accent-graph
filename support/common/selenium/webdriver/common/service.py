@@ -31,6 +31,7 @@ except ImportError:
     DEVNULL = -3
     _HAS_NATIVE_DEVNULL = False
 
+CREATE_NO_WINDOW = 0x08000000
 
 class Service(object):
 
@@ -73,7 +74,8 @@ class Service(object):
                                             close_fds=platform.system() != 'Windows',
                                             stdout=self.log_file,
                                             stderr=self.log_file,
-                                            stdin=PIPE)
+                                            stdin=PIPE,
+                                            creationflags=CREATE_NO_WINDOW)
         except TypeError:
             raise
         except OSError as err:
