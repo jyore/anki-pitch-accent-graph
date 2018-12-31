@@ -17,8 +17,14 @@ elif system == 'Linux':
 else:
     PLATFORM = 'windows'
 
+ppath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "support", PLATFORM)
+if not os.path.isdir(os.path.join(ppath, 'PIL')):
+    import zipfile
+    with zipfile.ZipFile(os.path.join(ppath, 'PIL.zip')) as z:
+        z.extractall(ppath)
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "support", "common"))
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "support", PLATFORM))
+sys.path.insert(0, ppath)
 
 
 
