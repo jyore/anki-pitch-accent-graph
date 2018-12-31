@@ -75,7 +75,7 @@ class Service(object):
                                             stdout=self.log_file,
                                             stderr=self.log_file,
                                             stdin=PIPE,
-                                            creationflags=CREATE_NO_WINDOW)
+                                            creationflags=CREATE_NO_WINDOW if platform.system() == 'Windows' else 0)
         except TypeError:
             raise
         except OSError as err:
