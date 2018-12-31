@@ -31,7 +31,7 @@ Add Pitch Accent Graphs to your cards quickly and easily for reinforcing pitch a
 This can be done from either the Add New Card or Edit Card forms.
 
 - Highlight the text you wish to generate a pitch accent graph for
-- Click on the editor icon (<img height="16" width="16" src="pitchaccentgraph/gui/icons/icon.png"/>) or use the right-click context menu
+- Click on the editor icon (<img height="16" width="16" src="gui/icons/icon.png"/>) or use the right-click context menu
 - Verify the Expression field is correct
 - Select a target destination field to place the generated pitch accent graph into
 - Select "Append" to add the graph into the destination field or "Replace" to completely replace the contents of the destination field
