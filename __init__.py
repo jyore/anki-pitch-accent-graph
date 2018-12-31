@@ -3,7 +3,23 @@
 # NOTE: Add the support directory to the sys path so 
 # that dependency modules can be imported
 import os,sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "support"))
+import platform
+import struct
+
+system = platform.system()
+if system == 'Darwin':
+    PLATFORM = 'osx'
+elif system == 'Linux':
+    if struct.calcsize('P') * 8 == 64:
+        PLATFORM = 'linux_x86_64'
+    else:
+        PLATFORM = 'linux_i686'
+else:
+    PLATFORM = 'windows'
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "support", "common"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "support", PLATFORM))
+
 
 
 import anki

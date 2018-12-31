@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import platform
-import struct
 import sys
 import uuid
 import warnings
@@ -10,6 +8,7 @@ import warnings
 from PIL import Image, ImageChops
 from selenium import webdriver
 
+from . import PLATFORM
 
 
 __all__ = ['trim', 'random_filename', 'get_driver', 'create_image_html']
@@ -39,20 +38,9 @@ def random_filename():
 
 
 def get_driver():
-    system = platform.system()
-
-    if system == 'Darwin':
-        path = "drivers/osx/phantomjs"
-    elif system == 'Linux':
-        if struct.calcsize('P') * 8 == 64:
-            path = "drivers/linux_x86_64/phantomjs"
-        else:
-            path = "drivers/linux_i686/phantomjs"
-    else:
-        path = "drivers/win/phantomjs.exe"
+    path = os.path.join('drivers', PLATFORM, 'phantomjs%s' % ('.exe' if PLATFORM == 'windows' else ''))
 
     sys.path.append(os.path.join(os.path.dirname(__file__), path))
-
     driver = webdriver.PhantomJS(executable_path=os.path.join(os.path.dirname(__file__), path))
     driver.set_window_size(1920,1080)
     return driver
